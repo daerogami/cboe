@@ -324,6 +324,7 @@
   <ItemGroup>
     <None Include="..\..\..\rsrc\dialogs\dialog.css" />
     <None Include="..\..\..\src\scenario\town_import.tpp" />
+    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\src\dialogxml\dialogs\3choice.cpp" />
@@ -478,7 +479,9 @@
     <ClInclude Include="..\..\..\src\view_dialogs.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
-  <ImportGroup Label="ExtensionTargets" />
+  <ImportGroup Label="ExtensionTargets">
+    <Import Project="..\packages\GitInfo.2.0.10\build\GitInfo.targets" Condition="Exists('..\packages\GitInfo.2.0.10\build\GitInfo.targets')" />
+  </ImportGroup>
   <!--RESOURCES-->
   <ItemGroup>
     <cursors Include="$(SolutionDir)..\..\rsrc\cursors\**\*.*" />
@@ -555,5 +558,11 @@
       <Output TaskParameter="CopiedFiles" ItemName="ChangedScenarios" />
     </Copy>
     <Message Text="changed:@(ChangedScenarios)" Importance="high" />
+  </Target>
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\packages\GitInfo.2.0.10\build\GitInfo.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\GitInfo.2.0.10\build\GitInfo.targets'))" />
   </Target>
 </Project>
